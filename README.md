@@ -118,4 +118,12 @@ prep -design <design_name> -tag <tag>
 
 After running the `prep` command, you'll find a well-structured project directory with all the necessary information and configurations, ready for the OpenLane flow.
 ![openlane](images/3.png)
-
+## Synthesis 
+run synthesis using this command 
+```
+run_synthesis
+```
+![openlane](images/4.png)
+the result of synthesis is
+![openlane](images/5.png)
+![openlane](images/6.png)
