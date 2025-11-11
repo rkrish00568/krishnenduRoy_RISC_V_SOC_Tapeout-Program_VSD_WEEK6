@@ -127,3 +127,53 @@ run_synthesis
 the result of synthesis is
 ![openlane](images/5.png)
 ![openlane](images/6.png)
+## Day 2: Floorplanning
+Floorplanning is a critical phase in chip design that establishes the initial chip layout and organization, ensuring efficient use of resources and meeting design goals. In the Floorplanning phase, the following key actions are typically performed:
+
+1.  **Die Area**: Define the total area of the chip's semiconductor material.
+    
+2.  **Core Area**: Specify the area within the die that contains the primary logic and functional components.
+    
+3.  **Core Utilization**: Determine the utilization factor, representing the ratio of the area occupied by the netlist to the core area (usually 50%-70%).
+    
+4.  **Aspect Ratio**: Establish the aspect ratio, which is the ratio of height to width (1 for square, other values for rectangles).
+    
+5.  **Place Macros**: Arrange pre-designed macros such as memories, clock gating cells, comparators, muxes, etc., within the core area.
+    
+6.  **Power Distribution Network**: Set up the power distribution network, which may include power straps and taps (although this is sometimes done later in tools like OpenLANE).
+    
+7.  **Place Input and Output Pins**: Determine the locations for input and output pins, optimizing for signal integrity, power consumption, and timing considerations.
+### Key Aspects of Floorplanning in Chip Design
+
+### 1\. Utilization Factor and Aspect Ratio
+
+[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#1-utilization-factor-and-aspect-ratio)
+
+-   **Utilization Factor**: This represents the amount of die core area occupied by standard cells. It's typically maintained within the range of 50%-70% (utilization factor of 0.5-0.7). This range ensures optimal placement and feasible routing within the chip, promoting efficient use of resources.
+    
+-   **Aspect Ratio**: The aspect ratio defines the shape of the chip and is calculated by dividing the height of the core area by its width. An aspect ratio of 1 indicates a square chip. Aspect ratio choices influence the chip's physical dimensions and layout.
+    
+
+### 2\. Preplaced Cells (MACROs)
+
+[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#2-preplaced-cells-macros)
+
+-   Preplaced cells, often referred to as MACROs, play a crucial role in enabling hierarchical chip design. They allow VLSI engineers to modularize larger designs. In floorplanning, preplaced cells are assigned specific locations within the core area. Blockages are also defined to ensure that standard cells are not placed in the preplaced cell regions.
+
+### 3\. Decoupling Capacitors
+
+[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#3-decoupling-capacitors)
+
+-   Decoupling capacitors are strategically placed near preplaced cells during Floorplanning. They address voltage drops caused by interconnecting wires, which can disrupt noise margins or induce an indeterminate state in circuits. These capacitors charge up to the power supply voltage over time and act as reservoirs of charge. When the circuit requires a transition, they supply the needed charge, effectively decoupling the circuit from the main power supply and stabilizing operation.
+
+### 4\. Power Planning
+
+[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#4-power-planning)
+
+-   Power planning is a vital aspect of Floorplanning aimed at reducing noise in digital circuits due to voltage droop and ground bounce. Coupling capacitance forms between interconnect wires and the substrate. During transitions on a net, the charge associated with coupling capacitors may be dumped to the ground. Sufficient ground taps and a robust power distribution network (PDN) with multiple power strap taps are essential to lower resistance, maintain ground voltage stability, and enhance noise margins.
+
+### 5\. Pin Placement
+
+[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#5-pin-placement)
+
+-   Pin placement optimization is crucial for minimizing buffering, improving power efficiency, and managing timing delays. It involves determining the specific locations along the I/O ring where pins should be placed, guided by the connectivity information of the HDL netlist. Well-optimized pin placement can reduce buffering requirements and subsequently lower power consumption. Blockages are often introduced to distinguish between the core and I/O areas, ensuring proper isolation.
