@@ -92,10 +92,30 @@ The Skywater PDK files we are working with are described under `pdks`
 make mount
 ./flow.tcl -interactive
 ```
-1.  Software Dependencies for OpenLane
+3.  Software Dependencies for OpenLane
 
 To ensure that OpenLane functions correctly, you need to manage software dependencies. You can import these dependencies into the OpenLane tool by using the following command:
 ```
 package require openlane
 ```
+![openlane](images/1.png)
+4.  Preparing the Design in OpenLane
+
+In OpenLane, the "prep" step is crucial for setting up the file structure and merging essential technology and cell information.
+
+-   **File Structure Setup**: Create a structured directory in your project's design folder.
+    
+-   **Configurations**: The "config.tcl" file generated in this folder contains critical parameters used by OpenLane for your specific run. These configurations tailor the OpenLane flow to your design.
+    
+-   **Merging Technology and Cell Data**: The command merges essential technology LEF data, which includes layer definitions and design rules needed for Place-and-Route (PnR). Additionally, it combines cell LEF data, reducing Design Rule Check (DRC) errors during the PnR process.
+![openlane](images/2.png)
+Prepare design command :
+
+```
+prep -design <design_name> -tag <tag>
+
+```
+
+After running the `prep` command, you'll find a well-structured project directory with all the necessary information and configurations, ready for the OpenLane flow.
+![openlane](images/3.png)
 
