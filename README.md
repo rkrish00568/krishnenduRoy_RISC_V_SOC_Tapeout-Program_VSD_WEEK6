@@ -147,7 +147,6 @@ Floorplanning is a critical phase in chip design that establishes the initial ch
 
 ### 1\. Utilization Factor and Aspect Ratio
 
-[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#1-utilization-factor-and-aspect-ratio)
 
 -   **Utilization Factor**: This represents the amount of die core area occupied by standard cells. It's typically maintained within the range of 50%-70% (utilization factor of 0.5-0.7). This range ensures optimal placement and feasible routing within the chip, promoting efficient use of resources.
     
@@ -156,24 +155,103 @@ Floorplanning is a critical phase in chip design that establishes the initial ch
 
 ### 2\. Preplaced Cells (MACROs)
 
-[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#2-preplaced-cells-macros)
 
 -   Preplaced cells, often referred to as MACROs, play a crucial role in enabling hierarchical chip design. They allow VLSI engineers to modularize larger designs. In floorplanning, preplaced cells are assigned specific locations within the core area. Blockages are also defined to ensure that standard cells are not placed in the preplaced cell regions.
 
 ### 3\. Decoupling Capacitors
 
-[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#3-decoupling-capacitors)
 
 -   Decoupling capacitors are strategically placed near preplaced cells during Floorplanning. They address voltage drops caused by interconnecting wires, which can disrupt noise margins or induce an indeterminate state in circuits. These capacitors charge up to the power supply voltage over time and act as reservoirs of charge. When the circuit requires a transition, they supply the needed charge, effectively decoupling the circuit from the main power supply and stabilizing operation.
 
 ### 4\. Power Planning
 
-[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#4-power-planning)
 
 -   Power planning is a vital aspect of Floorplanning aimed at reducing noise in digital circuits due to voltage droop and ground bounce. Coupling capacitance forms between interconnect wires and the substrate. During transitions on a net, the charge associated with coupling capacitors may be dumped to the ground. Sufficient ground taps and a robust power distribution network (PDN) with multiple power strap taps are essential to lower resistance, maintain ground voltage stability, and enhance noise margins.
 
 ### 5\. Pin Placement
 
-[](https://github.com/VardhanSuroshi/VLSI-Physical-Design-Flow#5-pin-placement)
 
 -   Pin placement optimization is crucial for minimizing buffering, improving power efficiency, and managing timing delays. It involves determining the specific locations along the I/O ring where pins should be placed, guided by the connectivity information of the HDL netlist. Well-optimized pin placement can reduce buffering requirements and subsequently lower power consumption. Blockages are often introduced to distinguish between the core and I/O areas, ensuring proper isolation.
+
+
+### FloorPlan using OPENLANE
+we initiate the Floorplan in OpenLane using the command
+```
+run_floorplan
+```
+![openlane](images/7.png)
+To view our floorplan in Magic we need to provide three files as input:
+
+1.  Magic technology file (sky130A.tech)
+2.  Def file of floorplan
+3.  Merged LEF file
+
+head over to the following directory to view the results of floorplan using Magic :
+
+```
+cd /Desktop/work/tools/openlane_working_dir/openlane/designs/picorv32a/runs/run_1/results/floorplan
+```
+
+To invoke magic use the command :
+
+```
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.floorplan.def &
+```
+
+Magic has the following GUI interface and a console window to execute commands
+![openlane](images/8.png)
+![openlane](images/9.png)
+![openlane](images/10.png)
+# Placement in Chip Design
+### 1\. Netlist Binding
+
+
+Netlist binding is the process of mapping the logical representation of a digital design onto standard cell shapes from a library. Each component in the netlist is mapped to a specific shape defined in the library.
+
+### 2\. Initial Placement Design
+
+
+
+In this phase, components from the netlist are placed within the chip's core area. Key considerations include:
+
+1.  **Proximity to Pins**: Components are strategically placed based on their distance from input and output pins to minimize signal delays.
+    
+2.  **Signal Optimization**: Signals requiring rapid propagation, such as FF1 to FF2, are placed close together. Buffer cells may be added for signal integrity.
+    
+3.  **Wire-Length and Capacitance Estimation**: Wire length and capacitance estimates guide placement optimization, factoring in signal delay, power consumption, and integrity.
+    
+
+### 3\. Final Placement Optimization
+
+
+The final placement phase fine-tunes the component layout within the chip, optimizing for performance. It assumes an ideal clock and aims to minimize signal delays, conserve power, and meet design constraints.
+
+The next step in the Digital ASIC design flow after floorplanning is placement. The synthesized netlist has been mapped to standard cells and the floorplanning phase has determined the standard cells rows, enabling placement. OpenLane does placement in two stages:
+
+1.  **Global Placement** \- Optimized but not legal placement. Optimization works to reduce wirelength by reducing half parameter wirelength
+2.  **Detailed Placement** \- Legalizes placement of cells into standard cell rows while adhering to global placement
+
+To do a placement in OpenLane:
+
+```
+run_placement
+```
+
+For placement to converge the overflow value needs to be converging to 0. At the end of placement cell legalization will be reported:
+
+### Viewing Placement in Magic
+
+To view placement in Magic the command mirrors viewing floorplanning, go to the results/floorplan directory and use the command:
+
+```
+magic -T /home/vsduser/Desktop/work/tools/openlane_working_dir/pdks/sky130A/libs.tech/magic/sky130A.tech lef read ../../tmp/merged.lef def read picorv32a.placement.def &
+```
+![openlane](images/11.png)
+![openlane](images/12.png)
+
+# Introduction to Magic Tool Options and DRC Rules
+Download the files required for this lab from:
+
+```
+https://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
+```
