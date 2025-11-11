@@ -255,3 +255,12 @@ Download the files required for this lab from:
 ```
 https://opencircuitdesign.com/open_pdks/archive/drc_tests.tgz
 ```
+Every design rule has a code that can be used to refer to the documentation.
+![openlane](images/14.png)
+Select a particular layer (hover over the layer and click S) and type drc why to know what the DRC violation is.
+![openlane](images/15.png)
+To add contact cuts, add met3 contact by selecting an area and clicking on m3contact using the middle mouse button. Then type cif see VIA2 in Tkcon prompt.
+![openlane](images/16.png)
+Magic techfile is under development and there may be some DRC violations that might not get reflected such violations are marked under incomplete DRC rules. Let's look at an example of a DRC violation and try correcting the rule file to capture the DRC error. Here is a violation
+
+# Layout Designing using Magic
