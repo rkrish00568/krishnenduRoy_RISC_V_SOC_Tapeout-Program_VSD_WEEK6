@@ -264,3 +264,36 @@ To add contact cuts, add met3 contact by selecting an area and clicking on m3con
 Magic techfile is under development and there may be some DRC violations that might not get reflected such violations are marked under incomplete DRC rules. Let's look at an example of a DRC violation and try correcting the rule file to capture the DRC error. Here is a violation
 
 # Layout Designing using Magic
+Clone the following repository in the openlane directory to build all the dependencies:
+```
+git clone https://github.com/nickson-jose/vsdstdcelldesign.git
+```
+To invoke the layout of the inverter, use the following command:
+```
+magic -T sky130A.tech sky130\_inv.mag &
+```
+![openlane](images/18.png)
+### DRC check in Magic happens in real time. 
+
+Any DRC errors are immediately reflected in the DRC icon on the toolbar.
+Extract Parasitics in Magic:
+![openlane](images/19.png)
+This creates a spice deck for simulation with all the parasitics.
+ - The file has details of the inverter netlist, but the sources and their values are not specified. Modify the file as follows:
+
+ - The grid size from the layout is 0.01u.
+ - Specify the library for MOS.
+ - Create VDD, VSS, Input pulse Va.
+ - Specify the type of analysis to be done.
+To run the spice netlist simulation, use the command on the terminal:
+```
+ngspice sky130\_inv.spice
+```
+Plot the transient analysis using:
+```
+plot y vs time a
+```
+![openlane](images/20.png)
+![openlane](images/21.png)
+
+# LEF Extraction and Standard Cell Guidelines
